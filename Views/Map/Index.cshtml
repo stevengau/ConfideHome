@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div id='map' class="col-lg-12" style='height:90vh;'></div>
+<div class="row col-lg-12" style="width:100%;visibility: visible;height: 350px; position: absolute; bottom: 0; left: 0;background-color: red; padding: 0px; margin: 0px">
+    <a href="javascript:;" class="btn btn-danger btn-block" style="padding-top:1px;">{{selectedItem.length}} Properties (click to close)</a>
+</div>
+<div class="row col-lg-12"
+     style="width:100%;visibility: visible;height: 320px; position: absolute; bottom: 0; left: 0; overflow-y: scroll; background-color: white; padding: 0px; margin: 0px">
+    <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of selectedItem; let i = index">
+        <img class="col-lg-12 p0" style="min-height:240px;max-height:240px" src="{{ item.properties['ImageUrl']}}" />
+        <div class="latest-pic-bottom">
+            <div class="pic-address">
+                {{ item.properties['Address']}}<span>${{ item.properties['ListingPrice']}}</span>
+            </div>
+            <!-- end .pic-address -->
+            <div class="description-wrap">
+                <div class="pic-mesure">
+                    <span><i class="fa fa-object-group"></i> {{ item.properties['HouseType']}}</span> <span>
+                        <i class="fa fa-bed"></i> {{ item.properties['Bedrooms']}} Badrooms
+                    </span> <span>
+                        <i class="fa fa-retweet"></i> {{ item.properties['Washrooms']}} Baths
+                    </span>
+                </div>
+                <!-- end .pic-mesure -->
+            </div>
+            <!-- end .desctription-wrapper -->
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var searchCity = "Toronto";
+        var searchDays = 7;
+        var searchBeds = 0;
+        var searchBaths = 0;
+        var searchPriceStart = 0;
+        var searchPriceEnd = 0;
+        var searchNorth = 44;
+        var searchSouth = 44;
+        var searchWest = 44;
+        var searchEast = 44;
+        var searchZoom = -77;
+
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY29uZmlkZWhvbWUiLCJhIjoiY2psaDQ3cmVzMDV0eDNvdDVnengxNzhuayJ9.H1NPj_fvhqNxYB_OtXg70w';
+        var map = new mapboxgl.Map({
+            container: "map",
+            center: [-79.3838, 43.6475],
+            zoom: 13,
+            minZoom: 1,
+            maxZoom: 20,
+            style: "mapbox://styles/confidehome/cjlh4ivfm0bc42ss2i37wutvj",
+        });
+        map.addControl(new mapboxgl.NavigationControl);
+        map.on('moveend', function () {
+            searchSouth = map.getBounds().getSouth();
+            searchWest = map.getBounds().getWest();
+            searchNorth = map.getBounds().getNorth();
+            searchEast = map.getBounds().getEast();
+            searchZoom = map.getZoom();
+            callback();
+        });
+        function callback() {
+            var url = "";
+            url = url.concat("/" + searchCity).concat("/" + searchDays).concat("/" + searchBeds).concat("/" + searchBaths).concat("/" + searchPriceStart).concat("/" + searchPriceEnd).concat("/" + searchSouth).concat("/" + searchWest).concat("/" + searchNorth).concat("/" + searchEast).concat("/" + searchZoom);
+
+            $.get(window.location.href + url, function (data, status) {
+                generateMap(data);
+            });
+        }
+
+
+    </script>
+}
+

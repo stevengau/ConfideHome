@@ -1,0 +1,205 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EcoReal - HTML5 Real Estate Template</title>
+
+    <meta name="description" content="EcoReal - HTML5 Bootstrap Site Template">
+    <meta name="keywords" content="real estate template, bootstrap real estate template, EcoReal">
+    <meta name="author" content="Ecology Theme">
+
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,300' rel='stylesheet' type='text/css'>
+
+    <!-- FAV AND TOUCH ICONS -->
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png">
+
+    <!-- STYLESHEETS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="~/css/magnific-popup.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+    <link href="~/css/responsive.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/owl.carousel.css">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.css' rel='stylesheet' />
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+
+    <!-- =========================
+       Navigation Section
+    ============================== -->
+    <nav class="navbar navbar-default" id="my-navbar">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse main-nav" id="navbar-collapse">
+                        <a href="" data-toggle="modal" data-target="#myModal" class="navbar-left">ConfideHome.com</a>
+                        @await Html.PartialAsync("_LoginPartial")
+                        <ul class="nav navbar-nav main-menu navbar-right">
+                            <li><a href="about.html">New Home</a></li>
+                            <li><a asp-area="" asp-controller="Map" asp-action="ForLease">RENT</a></li>
+                            <li><a href="about.html">Sale</a></li>
+                            <li><a href="about.html">Sold Records</a></li>
+                            <li><a href="about.html">Reports</a></li>
+
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- end conainer -->
+    </nav><!-- end navbar -->
+
+    <div class="row">
+        @RenderBody()
+
+    </div>
+    <!-- =========================
+    FOOTER
+    ============================== -->
+    <footer class="footer">
+        <div class="footer-overlay">
+            <div class="container">
+                <div class="row subscribe">
+                    <form id="mc-form">
+                        <div class="col-md-5 newsletter">
+                            <span>Subscribe to our newsletter</span>
+                        </div><!-- end .col-md-5 -->
+                        <div class="col-md-5 subscribe-email">
+                            <input type="email" placeholder="Email Address" id="mc-email">
+                        </div><!-- end .col-md-5 -->
+                        <div class="col-md-2">
+                            <input type="submit" value="Subscribe">
+                        </div><!-- end .col-md-2 -->
+                    </form>
+                </div><!-- end .row -->
+
+                <div class="footer-middle">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6">
+                            <div class="footer-widget about-us">
+                                <h3>About us</h3>
+                                <p>Proin sed accumsan justo Morbi nec convallis dui in rhoncus sem Duis nec ipsum sagittis mattis turpis quis, luctus urna Fusce gravida dictum lectus ut interdum.</p>
+                            </div><!-- end .about-us -->
+                            <div class="social-widget-links">
+                                <ul class="list-unstyled list-inline">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                </ul>
+                            </div>
+                        </div><!-- end .col-md-3 -->
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="footer-widget twitter-widget">
+                                <h3>Latest Tweets</h3>
+                                <p class="clearfix">
+                                    <span class="twittes-icon pull-left"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></span>
+                                    <span class="twittes">Proin sed accumsan justo Morbi nec convallis dui in <a href="#">http://yourtwitternamehere/ourtwitternamehere</a> 1 hours ago</span>
+                                </p>
+                                <p class="clearfix">
+                                    <span class="twittes-icon pull-left">
+                                        <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>
+                                    </span><span class="twittes">Proin sed accumsan justo Morbi nec convallis dui in <a href="#">http://yourtwitternamehere/ourtwitternamehere</a> 1 hours ago</span>
+                                </p>
+                            </div><!-- end .about-us -->
+                        </div><!-- end .col-md-3 -->
+
+                        <div class="col-md-3  col-sm-6">
+                            <div class="footer-widget latest-news">
+                                <h3>Your Blog</h3>
+                                <p class="pic1"><img src="images/post1.png" alt="" class="img-responsive pull-left" /> <a href="">sed do eiusmod tem incididunt ut labore</a> <span>Jan 9, 2017</span></p>
+                                <p class="pic2"><img src="images/post2.png" alt="" class="img-responsive pull-left" /> <a href="">sed do eiusmod tem incididunt ut labore</a> <span>Jan 9, 2017</span></p>
+                                <p class="pic3"><img src="images/post3.png" alt="" class="img-responsive pull-left" /> <a href="">sed do eiusmod tem incididunt ut labore</a> <span>Jan 9, 2017</span></p>
+                            </div><!-- end .about-us -->
+                        </div><!-- end .col-md-3 -->
+
+                        <div class="col-md-3 col-sm-6">
+                            <div class="footer-widget contact-info">
+                                <h3>Contact Info</h3>
+                                <div class="contact-info">
+                                    <p class="clearfix">
+                                        <span class="contact-icon pull-left"><i class="fa fa-map-marker fa-2x"></i></span>
+                                        <span class="contact-details">777 seventh avenue,Downtown New York,NY 01234</span>
+
+                                    </p>
+                                    <p class="clearfix">
+                                        <span class="contact-icon pull-left"><i class="fa fa-envelope fa-2x"></i></span>
+                                        <span class="contact-details">email@yourdomain.com</span>
+                                    </p>
+                                    <p class="clearfix">
+                                        <span class="contact-icon pull-left"><i class="fa fa-phone fa-2x"></i></span>
+                                        <span class="contact-details">0123-456-7890</span>
+                                    </p>
+                                    <p class="clearfix">
+                                        <span class="contact-icon pull-left"><i class="fa fa-globe fa-2x"></i></span>
+                                        <span class="contact-details">www.yourwebsite.com</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- end .footer-middle -->
+            </div>
+
+            <section class="footer-below">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6 copy-right">
+                            <p>Copyright &copy; 2017 <a href="http://ecologytheme.com">Ecology Theme</a> All rights reserved</p>
+                        </div><!-- end .col-md-6 -->
+
+                        <div class="col-md-6 col-sm-6 payment">
+                            <ul class="list-unstyled list-inline">
+                                <li><span>We Accept:</span></li>
+                                <li><i class="fa fa-cc-paypal" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-cc-stripe" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-cc-visa" aria-hidden="true"></i></li>
+                                <li><i class="fa fa-cc-mastercard" aria-hidden="true"></i></li>
+                            </ul>
+                        </div><!-- end .col-md-6 -->
+                    </div><!-- end .row -->
+                </div><!-- end .containter -->
+            </section>
+        </div>
+    </footer><!-- /END FOOTER SECTION -->
+    <!-- =========================
+        SCRIPTS
+    ============================== -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.mixitup.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/owl.carousel.js"></script>
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/jquery.ajaxchimp.js"></script>
+    <script src="~/js/jquery.magnific-popup.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.47.0/mapbox-gl.js'></script>
+    <script src='~/js/site.js'  asp-append-version="true" ></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

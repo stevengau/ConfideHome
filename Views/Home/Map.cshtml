@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div id='map' class="col-lg-12" style='height:90vh;'></div>
+
+@section Scripts{
+    <script>
+        var searchCity = "Toronto";
+        var searchDays = 7;
+        var searchBeds = 0;
+        var searchBaths = 0;
+        var searchPriceStart = 0;
+        var searchPriceEnd = 0;
+        var searchNorth = 44;
+        var searchSouth = 44;
+        var searchWest = 44;
+        var searchEast = 44;
+        var searchZoom = -77;
+
+        //mapboxgl.accessToken = 'pk.eyJ1Ijoic3RldmVuZ2F1IiwiYSI6ImNqbDVqMzV1ajAwanMzcHMyanVmbGV3OHEifQ.bfM8-XqztovPApKw-8gECA';
+        //var map = new mapboxgl.Map({
+        //    container: 'map', // container id
+        //    style: 'mapbox://styles/mapbox/light-v9', // stylesheet location
+        //    center: [-79.37943935394289, 43.639395318900355], // starting position [lng, lat]
+        //    zoom: 15 // starting zoom
+        //});
+        L.mapbox.accessToken = 'pk.eyJ1Ijoic3RldmVuZ2F1IiwiYSI6ImNqbDVqMzV1ajAwanMzcHMyanVmbGV3OHEifQ.bfM8-XqztovPApKw-8gECA';
+        var map = L.mapbox.map('map', 'mapbox.light')
+            .setView([43.639395318900355, -79.37943935394289], 14);;
+
+
+        map.on('moveend', function () {
+            searchSouth = map.getBounds().getSouth();
+            searchWest = map.getBounds().getWest();
+            searchNorth = map.getBounds().getNorth();
+            searchEast = map.getBounds().getEast();
+            searchZoom = map.getZoom();
+            callback();
+            console.log(map);
+        });
+        function callback() {
+            var url = "";
+            url = url.concat("/" + searchCity).concat("/" + searchDays).concat("/" + searchBeds).concat("/" + searchBaths).concat("/" + searchPriceStart).concat("/" + searchPriceEnd).concat("/" + searchSouth).concat("/" + searchWest).concat("/" + searchNorth).concat("/" + searchEast).concat("/" + searchZoom);
+
+            $.get(window.location.href + url, function (data, status) {
+                var jdata = JSON.parse(data);
+
+                var markers = new L.MarkerClusterGroup({ showCoverageOnHover: false, zoomToBoundsOnClick: false, singleMarkerMode: true });
+
+                for (var i = 0; i < jdata.length; i++) {
+                    var a = jdata[i];
+                    var title = a.MlsNo;
+
+                    var marker = L.marker(new L.LatLng(a.Location.coordinates[0], a.Location.coordinates[1]), {
+                        icon: L.mapbox.marker.icon({ 'marker-color': '0044FF' }),
+                        title: title
+                    });
+                    //marker.bindPopup(title);
+                    markers.addLayer(marker);
+                }
+                markers.on('click', function (a) {
+                    console.log('marker ' + a.layer);
+                });
+
+                markers.on('clusterclick', function (a) {
+                    // a.layer is actually a cluster
+                    console.log('cluster ' + a.layer.getAllChildMarkers().length);
+                });
+                map.addLayer(markers);
+
+            });
+        }
+    </script>
+}
+
