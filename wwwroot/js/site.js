@@ -103,16 +103,7 @@ function generateMap(data) {
     map.getSource("earthquakes").setData(geo);
 
 
-    // inspect a cluster on click
-    map.on('click', 'clusters', function (e) {
-        var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
-        console.log(features);
-        var clusterId = features[0].properties.cluster_id;
-        var leaves = map.getSource('earthquakes').getClusterLeaves(clusterId, 50, 0, function (error, features) {
-
-            console.log(features);
-        });
-    });
+    
 
     map.on('mouseenter', 'clusters', function () {
         map.getCanvas().style.cursor = 'pointer';

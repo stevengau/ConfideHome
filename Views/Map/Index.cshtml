@@ -6,23 +6,26 @@
 
 <div id='map' class="col-lg-12" style='height:90vh;'></div>
 <div class="row col-lg-12" style="width:100%;visibility: visible;height: 350px; position: absolute; bottom: 0; left: 0;background-color: red; padding: 0px; margin: 0px">
-    <a href="javascript:;" class="btn btn-danger btn-block" style="padding-top:1px;">{{selectedItem.length}} Properties (click to close)</a>
+    <a id="popbutton" href="javascript:;" class="btn btn-danger btn-block" style="padding-top:1px;">{{selectedItem.length}} Properties (click to close)</a>
 </div>
-<div class="row col-lg-12"
-     style="width:100%;visibility: visible;height: 320px; position: absolute; bottom: 0; left: 0; overflow-y: scroll; background-color: white; padding: 0px; margin: 0px">
-    <div class="col-lg-3 col-md-4 col-sm-6" *ngFor="let item of selectedItem; let i = index">
-        <img class="col-lg-12 p0" style="min-height:240px;max-height:240px" src="{{ item.properties['ImageUrl']}}" />
+<div id="target" class="row col-lg-12" style="width:100%;visibility: visible;height: 320px; position: absolute; bottom: 0; left: 0; overflow-y: scroll; background-color: white; padding: 0px; margin: 0px">
+   <!-- template section -->
+   
+</div>
+<script id="template" type="x-tmpl-mustache">
+    <div class="col-lg-3 col-md-4 col-sm-6">
+        <img class="col-lg-12 p0" style="padding-right: 0px; width: 100%;padding-left: 0px;min-height:240px;max-height:240px" src="{{ ImageUrl}}" />
         <div class="latest-pic-bottom">
             <div class="pic-address">
-                {{ item.properties['Address']}}<span>${{ item.properties['ListingPrice']}}</span>
+                {{Address}}<span>${{'ListingPrice}}</span>
             </div>
             <!-- end .pic-address -->
             <div class="description-wrap">
                 <div class="pic-mesure">
-                    <span><i class="fa fa-object-group"></i> {{ item.properties['HouseType']}}</span> <span>
-                        <i class="fa fa-bed"></i> {{ item.properties['Bedrooms']}} Badrooms
+                    <span><i class="fa fa-object-group"></i> {{ HouseType}}</span> <span>
+                        <i class="fa fa-bed"></i> {{ Bedrooms}} 
                     </span> <span>
-                        <i class="fa fa-retweet"></i> {{ item.properties['Washrooms']}} Baths
+                        <i class="fa fa-retweet"></i> {{ Washrooms}}
                     </span>
                 </div>
                 <!-- end .pic-mesure -->
@@ -30,7 +33,7 @@
             <!-- end .desctription-wrapper -->
         </div>
     </div>
-</div>
+</script>
 @section Scripts{
     <script>
         var searchCity = "Toronto";
@@ -56,23 +59,51 @@
         });
         map.addControl(new mapboxgl.NavigationControl);
         map.on('moveend', function () {
+            
+            getMapItem();
+        });
+        function getMapItem() {
             searchSouth = map.getBounds().getSouth();
             searchWest = map.getBounds().getWest();
             searchNorth = map.getBounds().getNorth();
             searchEast = map.getBounds().getEast();
             searchZoom = map.getZoom();
-            callback();
-        });
-        function callback() {
             var url = "";
-            url = url.concat("/" + searchCity).concat("/" + searchDays).concat("/" + searchBeds).concat("/" + searchBaths).concat("/" + searchPriceStart).concat("/" + searchPriceEnd).concat("/" + searchSouth).concat("/" + searchWest).concat("/" + searchNorth).concat("/" + searchEast).concat("/" + searchZoom);
+            url = url.concat("/Map/" + searchCity).concat("/" + searchDays).concat("/" + searchBeds).concat("/" + searchBaths).concat("/" + searchPriceStart).concat("/" + searchPriceEnd).concat("/" + searchSouth).concat("/" + searchWest).concat("/" + searchNorth).concat("/" + searchEast).concat("/" + searchZoom);
 
             $.get(window.location.href + url, function (data, status) {
                 generateMap(data);
             });
         }
+        // inspect a cluster on click
+        map.on('click', 'clusters', function (e) {
+            var features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+            var clusterId = features[0].properties.cluster_id;
+            var leaves = map.getSource('earthquakes').getClusterLeaves(clusterId, 50, 0, function (error, features) {
 
-
+                var mls = [];
+                features.forEach((feature, index) => {
+                    mls.push(feature.properties.listing_id);
+                });
+                getPopupMls(mls);
+            });
+        });
+        function getPopupMls(mls) {
+            var url = "";
+            url = url.concat("/MapData/" + mls);
+            console.log(window.location.href + url);
+            $.get(window.location.href + url, function (data, status) {
+                document.getElementById('target').innerHTML = "";
+                data.forEach(data => {
+                   
+                    var template = document.getElementById('template').innerHTML;
+                    Mustache.parse(template);
+                    var rendered = Mustache.render(template, { ListingPrice: data.listingPrice,  ImageUrl: data.pictures[0].url, Address: data.address, ListingPrice: data.listingPrice, HouseType: data.houseType, Bedrooms: data.bedrooms, Washrooms: data.washrooms });
+                    document.getElementById('target').innerHTML += rendered;
+                });
+            });
+        }
+        getMapItem();
     </script>
 }
 

@@ -141,12 +141,18 @@ namespace MongoIdentitySample.Mvc
             {
                 routes.MapRoute(
                          name: "LocalizedDefault",
-                         template: "{culture:culture}/{controller=Home}/{action=Index}/{id?}"
+                         template: "{culture:culture}/{controller=Home}/{action=Index}"
+                 );
+                routes.MapRoute(
+                         name: "GetPreviews",
+                         template: "{culture:culture}/Map/ForLease/MapData/{mls}",
+                         new { controller = "Map", action = "GetMapPopup" }
                  );
                 routes.MapRoute(
                          name: "map",
-                         template: "{culture:culture}/{controller=Map}/{action=ForLease}/{searchCity?}/{searchDays?}/{searchBeds?}/{searchBaths?}/{searchPriceStart?}/{searchPriceEnd?}/{searchSouth?}/{searchWest?}/{searchNorth?}/{searchEast?}/{searchZoom?}"
+                         template: "{culture:culture}/{controller=Map}/{action=ForLease}/Map/{searchCity?}/{searchDays?}/{searchBeds?}/{searchBaths?}/{searchPriceStart?}/{searchPriceEnd?}/{searchSouth?}/{searchWest?}/{searchNorth?}/{searchEast?}/{searchZoom?}"
                  );
+                
                 routes.MapRoute(
                        name: "default",
                        template: "{*catchall}",

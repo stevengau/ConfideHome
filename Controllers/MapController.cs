@@ -43,15 +43,18 @@ namespace ConfideHome.Controllers
             }
             return View("Index");
         }
-
-        public IActionResult GetPreviews(string mls)
+        
+        public IActionResult GetMapPopup(string mls)
         {
-            //MongoClient mongoClient = new MongoClient(MongoUrl.Create("mongodb://localhost:27017"));
-            //IMongoDatabase mongoDatabase = mongoClient.GetDatabase("RealEstate");
+            MongoClient mongoClient = new MongoClient(MongoUrl.Create("mongodb://localhost:27017"));
+            IMongoDatabase mongoDatabase = mongoClient.GetDatabase("RealEstate");
+            var collection = mongoDatabase.GetCollection<PropertyDetailByJaJa>("ForLease");
 
-            //return Ok("{ \"type\" : \"Feature\", \"properties\" : { \"MlsNo\" : \"MlsNo\", \"Address\" : \"doc.Address\", \"Bedrooms\" : \"doc.Bedrooms\", \"Washrooms\" : \"doc.Washrooms\", \"HouseType\" : \"doc.HouseType\", \"ListingDate\" : \"doc.ListingDate\", \"ListingPrice\" : \"doc.ListingPrice\", \"ImageUrl\" : \"doc.Pictures[0].url\", \"City\" : \"doc.City\", \"District\" : \"doc.District\", \"Community\" : \"doc.Community\" }, \"geometry\" : { \"type\" : \"Point\", \"coordinates\" : [-79.0, 43.0] } }");
+            string[] inCriterias = mls.Split(",");
 
-            return View();
+            List<PropertyDetailByJaJa> result = collection.Find(c => inCriterias.Contains(c.MlsNo)).ToList<PropertyDetailByJaJa>();
+
+            return Json(result);
         }
     }
 }
